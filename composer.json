@@ -1,0 +1,22 @@
+{
+	"name": "hypejunction/user_sort",
+	"version": "0.0.0",
+	"type": "elgg-plugin",
+	"description": "User list sorting for Elgg",
+	"homepage": "http://hypejunction.com",
+	"keywords": [
+		"elgg", "plugin", "list", "sort", "users"
+	],
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Ismayil Khayredinov",
+			"email": "info@hypejunction.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5",
+		"composer/installers": "~1.0"
+	}
+}
+

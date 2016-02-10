@@ -1,0 +1,10 @@
+.user-sort-select-field {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 5px 0;
+}
+
+.user-sort-select-field label {
+    margin-right: 5px;
+}
