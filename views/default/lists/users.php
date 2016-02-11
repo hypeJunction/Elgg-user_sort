@@ -30,6 +30,12 @@ $options = user_sort_add_sort_options($options, $sort_field, $sort_direction);
 
 $list = call_user_func($callback, $options);
 
+// make sure it's not an empty list with no results <p>
+if (!preg_match_all("/<ul.*>.*<\/ul>/s", $list)) {
+	echo $list;
+	return;
+}
+
 $id = elgg_extract('list_id', $options);
 if (!$id) {
 	$id = md5($base_url);
