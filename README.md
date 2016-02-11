@@ -8,6 +8,8 @@ User List Sorting for Elgg
  * By default, provides sorting by Name, Friend count, Registration date, and Last seen
  * Extendable via hooks
 
+![User Sort](https://raw.github.com/hypeJunction/Elgg-user_sort/master/screenshots/members.png "User Search and Sort Interface")
+
 ## Usage
 
 

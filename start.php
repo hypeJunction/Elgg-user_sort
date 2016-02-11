@@ -59,7 +59,7 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 	$order_by = explode(',', elgg_extract('order_by', $options, ''));
 	array_walk($order_by, 'trim');
 	
-	$options['joins']['ue'] = "JOIN {$dbprefix}users_entity ue ON ue.guid = e.guid";
+	$options['joins']['users_entity'] = "JOIN {$dbprefix}users_entity users_entity ON users_entity.guid = e.guid";
 
 	switch ($field) {
 
@@ -78,18 +78,39 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 			break;
 
 		case 'friend_count' :
-			$options['joins']['friend_count'] = "LEFT JOIN {$dbprefix}entity_relationships fr ON fr.guid_one = e.guid AND fr.relationship = 'friend'";
-			$options['selects']['friend_count'] = "COUNT(fr.guid_two) as friend_count";
-			$options['group_by'] = 'fr.guid_one';
+			$options['joins']['friend_count'] = "LEFT JOIN {$dbprefix}entity_relationships friend_count ON friend_count.guid_one = e.guid AND friend_count.relationship = 'friend'";
+			$options['selects']['friend_count'] = "COUNT(friend_count.guid_two) as friend_count";
+			$options['group_by'] = 'friend_count.guid_one';
 			
 			array_unshift($order_by, "friend_count {$direction}");
 			break;
 	}
 
 	// Always order by name for matching fields
-	$order_by[] = "ue.name {$direction}";
+	$order_by[] = "users_entity.name {$direction}";
 
 	$options['order_by'] = implode(', ', array_unique(array_filter($order_by)));
 
 	return elgg_trigger_plugin_hook('sort_options', 'user', null, $options);
+}
+
+/**
+ * Adds search query options to the ege* options array
+ *
+ * @param array  $options   ege* options
+ * @param string $query     Query
+ * @return array
+ */
+function user_sort_add_search_query_options(array $options = array(), $query = '') {
+
+	if (!elgg_is_active_plugin('search')) {
+		return $options;
+	}
+
+	$dbprefix = elgg_get_config('dbprefix');
+	$options['joins']['users_entity'] = "JOIN {$dbprefix}users_entity users_entity ON users_entity.guid = e.guid";
+
+	$fields = array('username', 'name');
+	$options['wheres'][] = search_get_where_sql('users_entity', $fields, ['query' => $query], false);
+	return $options;
 }

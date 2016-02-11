@@ -18,4 +18,9 @@
 		<version>2.0</version>
 	</requires>
 
+	<suggests>
+		<type>plugin</type>
+		<name>search</name>
+	</suggests>
+
 </plugin_manifest>

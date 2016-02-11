@@ -7,12 +7,18 @@ if (!is_array($options) || empty($options) || !is_callable($callback)) {
 	return;
 }
 
+$query = elgg_extract('query', $options, get_input('query'));
+$vars['query'] = $query;
+
 $sort = elgg_extract('sort', $options, get_input('sort', 'alpha::asc'));
+$vars['sort'] = $sort;
+
 $base_url = elgg_extract('base_url', $options);
 if (!$base_url) {
 	$base_url = current_page_url();
 }
 
+$base_url = elgg_http_remove_url_query_element($base_url, 'query');
 $base_url = elgg_http_remove_url_query_element($base_url, 'sort');
 $base_url = elgg_http_remove_url_query_element($base_url, 'limit');
 $base_url = elgg_http_remove_url_query_element($base_url, elgg_extract('offset_key', $options, 'offset'));
@@ -21,17 +27,28 @@ $form = elgg_view_form('user/sort', array(
 	'action' => $base_url,
 	'method' => 'GET',
 	'disable_security' => true,
-		), array(
-	'sort' => $sort,
-		));
+		), $vars);
 
 list($sort_field, $sort_direction) = explode('::', $sort);
 $options = user_sort_add_sort_options($options, $sort_field, $sort_direction);
 
-$list = call_user_func($callback, $options);
+if (!empty($query) && elgg_is_active_plugin('search')) {
+	$options['query'] = $query;
+	if (version_compare(elgg_get_version(true), '2.1', '>=')) {
+		// search hooks in earlier versions reset 'joins' and 'wheres' and 'order_by'
+		$results = elgg_trigger_plugin_hook('search', 'user', $options, array());
+		$entities = elgg_extract('entities', $results);
+		$list = elgg_view_entity_list($entities, $options);
+	} else {
+		$options = user_sort_add_search_query_options($options, $query);
+		$list = call_user_func($callback, $options);
+	}
+} else {
+	$list = call_user_func($callback, $options);
+}
 
 // make sure it's not an empty list with no results <p>
-if (!preg_match_all("/<ul.*>.*<\/ul>/s", $list)) {
+if (empty($query) && !preg_match_all("/<ul.*>.*<\/ul>/s", $list)) {
 	echo $list;
 	return;
 }
