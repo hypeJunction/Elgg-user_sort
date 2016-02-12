@@ -86,8 +86,12 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 			break;
 	}
 
-	// Always order by name for matching fields
-	$order_by[] = "users_entity.name ASC";
+	if ($field == 'alpha') {
+		$order_by[] = "users_entity.name {$direction}";
+	} else {
+		// Always order by name for matching fields
+		$order_by[] = "users_entity.name ASC";
+	}
 
 	$options['order_by'] = implode(', ', array_unique(array_filter($order_by)));
 
