@@ -7,6 +7,15 @@ if (!is_array($options) || empty($options) || !is_callable($callback)) {
 	return;
 }
 
+$rel = elgg_extract('rel', $vars, get_input('rel'));
+$vars['rel'] = $rel;
+
+if ($rel) {
+	$list_class = (array) elgg_extract('list_class', $options, array());
+	$list_class[] = "elgg-list-users-$rel";
+	$options['list_class'] = implode(' ', $list_class);
+}
+
 $query = elgg_extract('query', $vars, get_input('query'));
 $vars['query'] = $query;
 
@@ -28,6 +37,10 @@ $form = elgg_view_form('user/sort', array(
 	'method' => 'GET',
 	'disable_security' => true,
 		), $vars);
+
+$group = elgg_extract('group', $vars, elgg_get_page_owner_entity());
+$options['group'] = $user;
+$options = user_sort_add_rel_options($options, $rel, $group);
 
 list($sort_field, $sort_direction) = explode('::', $sort);
 $options = user_sort_add_sort_options($options, $sort_field, $sort_direction);

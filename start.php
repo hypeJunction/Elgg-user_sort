@@ -58,7 +58,7 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 
 	$order_by = explode(',', elgg_extract('order_by', $options, ''));
 	array_walk($order_by, 'trim');
-	
+
 	$options['joins']['users_entity'] = "JOIN {$dbprefix}users_entity users_entity ON users_entity.guid = e.guid";
 
 	switch ($field) {
@@ -81,7 +81,7 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 			$options['joins']['friend_count'] = "LEFT JOIN {$dbprefix}entity_relationships friend_count ON friend_count.guid_one = e.guid AND friend_count.relationship = 'friend'";
 			$options['selects']['friend_count'] = "COUNT(friend_count.guid_two) as friend_count";
 			$options['group_by'] = 'friend_count.guid_one';
-			
+
 			array_unshift($order_by, "friend_count {$direction}");
 			break;
 	}
@@ -95,7 +95,28 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 
 	$options['order_by'] = implode(', ', array_unique(array_filter($order_by)));
 
-	return elgg_trigger_plugin_hook('sort_options', 'user', null, $options);
+	$params = array(
+		'field' => $field,
+		'direction' => $direction,
+	);
+	
+	return elgg_trigger_plugin_hook('sort_options', 'user', $params, $options);
+}
+
+/**
+ * Adds relationship/metadata filters to the ege* options array
+ *
+ * @param array  $options    ege* options
+ * @param string $rel        Filter name
+ * @param string $page_owner Page owner
+ * @return array
+ */
+function user_sort_add_rel_options(array $options = array(), $rel = '', $page_owner = null) {
+	$params = array(
+		'rel' => $rel,
+		'page_owner' => $page_owner,
+	);
+	return elgg_trigger_plugin_hook('rel_options', 'user', $params, $options);
 }
 
 /**
