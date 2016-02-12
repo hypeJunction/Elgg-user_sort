@@ -7,10 +7,10 @@ if (!is_array($options) || empty($options) || !is_callable($callback)) {
 	return;
 }
 
-$query = elgg_extract('query', $options, get_input('query'));
+$query = elgg_extract('query', $vars, get_input('query'));
 $vars['query'] = $query;
 
-$sort = elgg_extract('sort', $options, get_input('sort', 'alpha::asc'));
+$sort = elgg_extract('sort', $vars, get_input('sort', 'alpha::asc'));
 $vars['sort'] = $sort;
 
 $base_url = elgg_extract('base_url', $options);
