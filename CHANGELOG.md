@@ -1,3 +1,21 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/hypeJunction/Elgg-user_sort/compare/1.0.0...v1.0.1) (2016-02-15)
+
+
+### Bug Fixes
+
+* **forms:** fix how and when the sort form is displayed ([2c93068](https://github.com/hypeJunction/Elgg-user_sort/commit/2c93068))
+* **lists:** fix variable assignment ([8f5bd55](https://github.com/hypeJunction/Elgg-user_sort/commit/8f5bd55))
+* **sort:** fix sorting in reverse alphabetical order ([e700bcd](https://github.com/hypeJunction/Elgg-user_sort/commit/e700bcd))
+* **sql:** last order by name statement should always be asc ([bfdd326](https://github.com/hypeJunction/Elgg-user_sort/commit/bfdd326))
+* **vars:** fix elgg_extract() statements ([12ad360](https://github.com/hypeJunction/Elgg-user_sort/commit/12ad360))
+
+### Features
+
+* **sort:** allow contextual relationship sorting ([981377d](https://github.com/hypeJunction/Elgg-user_sort/commit/981377d))
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2016-02-11)
 

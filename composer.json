@@ -1,6 +1,6 @@
 {
 	"name": "hypejunction/user_sort",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"type": "elgg-plugin",
 	"description": "User list sorting for Elgg",
 	"homepage": "http://hypejunction.com",
