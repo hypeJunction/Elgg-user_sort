@@ -39,8 +39,8 @@ $form = elgg_view_form('user/sort', array(
 		), $vars);
 
 $group = elgg_extract('group', $vars, elgg_get_page_owner_entity());
-$options['group'] = $user;
-$options = user_sort_add_rel_options($options, $rel, $group);
+$options['group'] = $group ? : null;
+$options = user_sort_add_rel_options($options, $rel, $group ? : null);
 
 list($sort_field, $sort_direction) = explode('::', $sort);
 $options = user_sort_add_sort_options($options, $sort_field, $sort_direction);
