@@ -80,7 +80,7 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 		case 'friend_count' :
 			$options['joins']['friend_count'] = "LEFT JOIN {$dbprefix}entity_relationships friend_count ON friend_count.guid_one = e.guid AND friend_count.relationship = 'friend'";
 			$options['selects']['friend_count'] = "COUNT(friend_count.guid_two) as friend_count";
-			$options['group_by'] = 'friend_count.guid_one';
+			$options['group_by'] = 'e.guid';
 
 			array_unshift($order_by, "friend_count {$direction}");
 			break;
