@@ -1,3 +1,13 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/hypeJunction/Elgg-user_sort/compare/1.0.1...v1.0.2) (2016-02-23)
+
+
+### Bug Fixes
+
+* **sql:** fix group by statement for friends sort ([70d4b5a](https://github.com/hypeJunction/Elgg-user_sort/commit/70d4b5a))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/hypeJunction/Elgg-user_sort/compare/1.0.0...v1.0.1) (2016-02-15)
 
