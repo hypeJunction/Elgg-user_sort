@@ -1,3 +1,13 @@
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/hypeJunction/Elgg-user_sort/compare/1.1.0...v1.1.1) (2016-02-24)
+
+
+### Bug Fixes
+
+* **settings:** fix checkbox checked status ([e256537](https://github.com/hypeJunction/Elgg-user_sort/commit/e256537))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/hypeJunction/Elgg-user_sort/compare/1.0.2...v1.1.0) (2016-02-24)
 
