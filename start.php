@@ -72,9 +72,13 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 		case 'enabled' :
 		case 'time_created';
 		case 'time_updated' :
-		case 'last_action' :
 		case 'access_id' :
 			array_unshift($order_by, "e.{$field} {$direction}");
+			break;
+
+		case 'last_action' :
+			$options['selects']['last_action'] = "GREATEST(e.time_created, e.last_action, e.time_updated, users_entity.last_login) as last_action";
+			array_unshift($order_by, "last_action {$direction}");
 			break;
 
 		case 'friend_count' :
@@ -99,7 +103,7 @@ function user_sort_add_sort_options(array $options = array(), $field = 'time_cre
 		'field' => $field,
 		'direction' => $direction,
 	);
-	
+
 	return elgg_trigger_plugin_hook('sort_options', 'user', $params, $options);
 }
 
