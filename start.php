@@ -132,14 +132,47 @@ function user_sort_add_rel_options(array $options = array(), $rel = '', $page_ow
  */
 function user_sort_add_search_query_options(array $options = array(), $query = '') {
 
-	if (!elgg_is_active_plugin('search')) {
+	if (!elgg_is_active_plugin('search') || !$query) {
 		return $options;
 	}
+
+	$query = sanitize_string($query);
+
+	$advanced = elgg_extract('advanced_search', $options, false);
 
 	$dbprefix = elgg_get_config('dbprefix');
 	$options['joins']['users_entity'] = "JOIN {$dbprefix}users_entity users_entity ON users_entity.guid = e.guid";
 
-	$fields = array('username', 'name');
-	$options['wheres'][] = search_get_where_sql('users_entity', $fields, ['query' => $query], false);
+	$fields = array('name');
+	if (elgg_get_plugin_setting('username', 'user_sort', true)) {
+		$fields[] = 'username';
+	}
+	$where = search_get_where_sql('users_entity', $fields, ['query' => $query], false);
+
+	$profile_fields = array_keys((array) elgg_get_config('profile_fields'));
+	$profile_fields = array_diff($profile_fields, $fields);
+
+	if ($advanced && !empty($profile_fields)) {
+		$options['joins']['profile_fields_md'] = "JOIN {$dbprefix}metadata profile_fields_md on e.guid = profile_fields_md.entity_guid";
+		$options['joins']['profile_fields_msv'] = "JOIN {$dbprefix}metastrings profile_fields_msv ON n_table.value_id = profile_fields_msv.id";
+
+		$clauses = _elgg_entities_get_metastrings_options('metadata', array(
+			'metadata_names' => $profile_fields,
+			'metadata_values' => null,
+			'metadata_name_value_pairs' => null,
+			'metadata_name_value_pairs_operator' => null,
+			'metadata_case_sensitive' => null,
+			'order_by_metadata' => null,
+			'metadata_owner_guids' => null,
+		));
+
+		$options['joins'] = array_merge($clauses['joins'], $options['joins']);
+		$profile_fields_md_where = "(({$clauses['wheres'][0]}) AND profile_fields_msv.string LIKE '%$query%')";
+
+		$options['wheres'][] = "(($where) OR ($profile_fields_md_where))";
+	} else {
+		$options['wheres'][] = "$where";
+	}
+
 	return $options;
 }
