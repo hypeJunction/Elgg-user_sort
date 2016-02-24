@@ -1,3 +1,14 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/hypeJunction/Elgg-user_sort/compare/1.0.2...v1.1.0) (2016-02-24)
+
+
+### Features
+
+* **search:** adds an option to use advanced search in profile fields ([197d770](https://github.com/hypeJunction/Elgg-user_sort/commit/197d770))
+* **sql:** improve last action query ([23b84ac](https://github.com/hypeJunction/Elgg-user_sort/commit/23b84ac))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/hypeJunction/Elgg-user_sort/compare/1.0.1...v1.0.2) (2016-02-23)
 
